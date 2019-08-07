@@ -10,18 +10,32 @@ http. createServer( ( request, response ) => {
     fs .readFile( 'index.html', ( error, dataFile ) => {
         let html = dataFile .toString(),
             fields = html .match( /[^\{\}]+(?=\})/g ),
-            name = 'Elisa Maria';
+            firstName = 'Elisa Maria',
+            lastName = 'Giraldo';
 
         /** Valida si existen interpolaciones en el archivo */
         if( fields ) {
             console .log( ' > Interpolations: ', fields );
+
+            /** Itera los campos interpolados */
+            for( const field of fields ) {
+                let value = eval( field );          // Convierte un String en Código valido de JavaScript
+
+                console .log( ' - ', field, ':' , value );
+                html = html .replace( `{${ field }}`, value );
+                //html = html .replace( '{' + field + '}', value );
+            }
+
+            response .writeHead( 200, { 'Content-Type': 'text/html' } );
+            response .write( html );
+
         } 
         else {
             console .info( ' > No hay interpolaciones en el archivo' );
         }
 
+        response .end();
     });
 
-    response .writeHead( 200, { 'Content-Type': 'text/plain' } );
-    response .end( 'Running Node Server...' );
+    
 }) .listen( 8081 );
