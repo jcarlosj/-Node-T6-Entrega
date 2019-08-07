@@ -8,7 +8,18 @@ http. createServer( ( request, response ) => {
 
     /** Lee fichero index.html de forma Asincrona */
     fs .readFile( 'index.html', ( error, dataFile ) => {
-        console .log( dataFile .toString() );
+        let html = dataFile .toString(),
+            fields = html .match( /[^\{\}]+(?=\})/g ),
+            name = 'Elisa Maria';
+
+        /** Valida si existen interpolaciones en el archivo */
+        if( fields ) {
+            console .log( ' > Interpolations: ', fields );
+        } 
+        else {
+            console .info( ' > No hay interpolaciones en el archivo' );
+        }
+
     });
 
     response .writeHead( 200, { 'Content-Type': 'text/plain' } );
