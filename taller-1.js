@@ -7,7 +7,9 @@ const ROUTING = [
         { path: '', file: './index.html' },                     // > http://www.midominio.co/
         { path: 'acerca', file: './acercade.html' },            // > http://www.midominio.co/acerca
         { path: 'contacto', file: './contacto.html' },          // > http://www.midominio.co/contacto
-        { path: 'elisa-maria', file: './elisa-maria.html' }     // > http://www.midominio.co/elisa-maria
+        { path: 'elisa-maria', file: './elisa-maria.html' },    // > http://www.midominio.co/elisa-maria
+        { path: 'luisa-maria', file: './luisa-maria.html' },    // > http://www.midominio.co/luisa-maria
+        { path: 'ana-maria', file: './ana-maria.html' }         // > http://www.midominio.co/ana-maria
     ],
     people = [
         {
@@ -56,6 +58,10 @@ http. createServer( ( request, response ) => {
                     person = {
                         firstName: 'Fulanita',
                         lastName: 'de Tal',
+                        gender: '',
+                        age: 0,
+                        born: '',
+                        profession: ''
                     };
 
                     people .forEach( data => {
@@ -64,6 +70,10 @@ http. createServer( ( request, response ) => {
                             console .log( ' > info: ', data .info );
                             person[ 'firstName' ] = data .info .firstName;
                             person[ 'lastName' ] = data .info .lastName;
+                            person[ 'gender' ] = data .info .gender;
+                            person[ 'age' ] = data .info .age;
+                            person[ 'born' ] = data .info .born;
+                            person[ 'profession' ] = data .info .profession;
                         }
                     });
 
