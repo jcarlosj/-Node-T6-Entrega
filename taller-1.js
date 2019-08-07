@@ -7,6 +7,20 @@ const ROUTING = [
         { path: '', file: './index.html' },             // > http://www.midominio.co/
         { path: 'acerca', file: './acercade.html' },    // > http://www.midominio.co/acerca
         { path: 'contacto', file: './contacto.html' }   // > http://www.midominio.co/contacto
+    ],
+    people = [
+        {
+            slug: 'elisa-maria',
+            data: { firstName: 'Elisa María', lastName: 'Giraldo', gender: 'female', age: 41, born: 'Medellin', profession: 'Industrial Designer' }
+        },
+        {
+            slug: 'luisa-maria',
+            data: { firstName: 'Luisa María', lastName: 'Bazalar', gender: 'female', age: 28, born: 'Medellin', profession: 'Business Administrator' }
+        },
+        {
+            slug: 'ana-maria',
+            data: { firstName: 'Ana María', lastName: 'Castro', gender: 'female', age: 24, born: 'Bogotá D.C.', profession: 'Social Communicator and Journalist' }
+        }
     ];
 
 /** Crea Servidor */
@@ -15,6 +29,7 @@ http. createServer( ( request, response ) => {
 
     console .log( ` > Running Node Server...` );
     console .log( ' > Route', route );
+    //console .log( ' > Data (people): ', people );
 
     /** Itera las rutas disponibles */
     ROUTING .forEach( page => {
@@ -33,11 +48,12 @@ http. createServer( ( request, response ) => {
                 }
 
                 console .info( ' > Lee:', page .file );
+                console .log( ' > Data (people): ', people );
                 
                 let html = dataFile .toString(),
                     fields = html .match( /[^\{\}]+(?=\})/g ),
-                    firstName = 'Elisa Maria',
-                    lastName = 'Giraldo';
+                    firstName = people[ 2 ] .data .firstName,
+                    lastName = people[ 2 ] .data .lastName;
 
                 /** Valida si existen interpolaciones en el archivo */
                 if( fields ) {
