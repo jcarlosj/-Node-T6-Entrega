@@ -4,22 +4,23 @@ const http = require( 'http' ),
       path = require( 'path' );
 /** Objeto Routing */
 const ROUTING = [
-        { path: '', file: './index.html' },             // > http://www.midominio.co/
-        { path: 'acerca', file: './acercade.html' },    // > http://www.midominio.co/acerca
-        { path: 'contacto', file: './contacto.html' }   // > http://www.midominio.co/contacto
+        { path: '', file: './index.html' },                     // > http://www.midominio.co/
+        { path: 'acerca', file: './acercade.html' },            // > http://www.midominio.co/acerca
+        { path: 'contacto', file: './contacto.html' },          // > http://www.midominio.co/contacto
+        { path: 'elisa-maria', file: './elisa-maria.html' }     // > http://www.midominio.co/elisa-maria
     ],
     people = [
         {
             slug: 'elisa-maria',
-            data: { firstName: 'Elisa María', lastName: 'Giraldo', gender: 'female', age: 41, born: 'Medellin', profession: 'Industrial Designer' }
+            info: { firstName: 'Elisa María', lastName: 'Giraldo', gender: 'female', age: 41, born: 'Medellin', profession: 'Industrial Designer' }
         },
         {
             slug: 'luisa-maria',
-            data: { firstName: 'Luisa María', lastName: 'Bazalar', gender: 'female', age: 28, born: 'Medellin', profession: 'Business Administrator' }
+            info: { firstName: 'Luisa María', lastName: 'Bazalar', gender: 'female', age: 28, born: 'Medellin', profession: 'Business Administrator' }
         },
         {
             slug: 'ana-maria',
-            data: { firstName: 'Ana María', lastName: 'Castro', gender: 'female', age: 24, born: 'Bogotá D.C.', profession: 'Social Communicator and Journalist' }
+            info: { firstName: 'Ana María', lastName: 'Castro', gender: 'female', age: 24, born: 'Bogotá D.C.', profession: 'Social Communicator and Journalist' }
         }
     ];
 
@@ -34,7 +35,7 @@ http. createServer( ( request, response ) => {
     /** Itera las rutas disponibles */
     ROUTING .forEach( page => {
         
-        //console .log( ' > path/route: ', page .path + '/' + route );
+        console .log( ' > path/route: ', page .path + '/' + route );
 
         if( page .path === route ) {
             console .log( ' > Existe PATH', ( route === '' ) ? '/' : route );
@@ -48,12 +49,23 @@ http. createServer( ( request, response ) => {
                 }
 
                 console .info( ' > Lee:', page .file );
-                console .log( ' > Data (people): ', people );
+                //console .log( ' > Data (people): ', people );
                 
                 let html = dataFile .toString(),
                     fields = html .match( /[^\{\}]+(?=\})/g ),
-                    firstName = people[ 2 ] .data .firstName,
-                    lastName = people[ 2 ] .data .lastName;
+                    person = {
+                        firstName: 'Fulanita',
+                        lastName: 'de Tal',
+                    };
+
+                    people .forEach( data => {
+                        console .log( ' > slug: ', data .slug );
+                        if( page .path === data .slug ) {
+                            console .log( ' > info: ', data .info );
+                            person[ 'firstName' ] = data .info .firstName;
+                            person[ 'lastName' ] = data .info .lastName;
+                        }
+                    });
 
                 /** Valida si existen interpolaciones en el archivo */
                 if( fields ) {
@@ -63,13 +75,13 @@ http. createServer( ( request, response ) => {
                     for( const field of fields ) {
                         let value = eval( field );          // Convierte un String en Código valido de JavaScript
 
-                        console .log( ' - ', field, ':' , value );
+                        //console .log( ' - ', field, ':' , value );
                         html = html .replace( `{${ field }}`, value );
                         //html = html .replace( '{' + field + '}', value );
                     }
 
                     // response .writeHead( 200, { 'Content-Type': 'text/html' } );
-                    // response .write( html );
+                    //response .write( html );
 
                 } 
                 else {
